@@ -1,5 +1,6 @@
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,29 +16,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // XML wale WebView ko Java se connect kar rahe hain
         myTvWeb = findViewById(R.id.myTvWeb);
         WebSettings webSettings = myTvWeb.getSettings();
         
-        // Video play karne aur website properly load hone ke liye settings
-        webSettings.setJavaScriptEnabled(true); // JS chalu karna zaroori hai
-        webSettings.setDomStorageEnabled(true); 
-        webSettings.setMediaPlaybackRequiresUserGesture(false); // TV par autoplay ke liye
+        // Video play karne ki zaroori settings
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setMediaPlaybackRequiresUserGesture(false); // Autoplay allowed
+        webSettings.setAllowFileAccess(true);
 
-        // App ko usi app me open rakhne ke liye (bahar Chrome me na khule)
+        // *** SABSE MAIN DESI JUGAD ***
+        // Ye TV browser ko ek Powerful Desktop Chrome browser bana dega
+        String desktopAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36";
+        webSettings.setUserAgentString(desktopAgent);
+
+        // App ko bahar (Chrome me) khulne se rokne ke liye
         myTvWeb.setWebViewClient(new WebViewClient());
+        
+        // HTML5 Videos ko smoothly load karne ke liye
+        myTvWeb.setWebChromeClient(new WebChromeClient());
 
-        // Aapka GitHub link jo sidha app khulte hi load hoga
+        // Aapka GitHub link load karein
         myTvWeb.loadUrl("https://manish910527-ai.github.io/Android-app/");
     }
     
-    // TV remote ka 'Back' button dabane par kya hoga
+    // Remote ke Back button ka sahi istemaal
     @Override
     public void onBackPressed() {
         if (myTvWeb.canGoBack()) {
-            myTvWeb.goBack(); // Agar pichla page hai to wahan jaye
+            myTvWeb.goBack(); // Pichle page par wapas le jaye
         } else {
-            super.onBackPressed(); // Warna app band ho jaye
+            super.onBackPressed(); // App band kar de
         }
     }
 }
