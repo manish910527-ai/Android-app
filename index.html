@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My TV Live Player</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black; /* TV par background black best lagta hai */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Scrollbar hide karne ke liye */
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            outline: none; /* Remote se select karne par border na aaye */
+        }
+    </style>
+</head>
+<body>
+
+    <video id="tvPlayer" controls autoplay>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Your TV does not support HTML video.
+    </video>
+
+    <script>
+        // TV remote ke OK button ya play/pause handle karne ke liye basic script
+        const player = document.getElementById('tvPlayer');
+        
+        document.addEventListener('keydown', function(event) {
+            // Spacebar ya TV remote ka OK/Enter button (Key code 13 ya 32)
+            if(event.keyCode === 13 || event.keyCode === 32) {
+                if(player.paused) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
