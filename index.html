@@ -3,44 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My TV Live Player</title>
+    <title>Manish Smart TV Browser</title>
     <style>
-        body {
-            margin: 0;
-            background-color: black; /* TV par background black best lagta hai */
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden; /* Scrollbar hide karne ke liye */
+        body { 
+            background-color: #000000; /* TV ke liye black screen */
+            color: white; 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            margin: 0; 
         }
-        video {
-            width: 100%;
-            height: 100%;
-            outline: none; /* Remote se select karne par border na aaye */
+        .header { 
+            padding: 30px; 
+            background: #222; 
+            border-bottom: 2px solid #ff4500;
         }
+        input { 
+            width: 60%; 
+            padding: 15px; 
+            border-radius: 5px; 
+            border: none; 
+            font-size: 20px; 
+            outline: none;
+        }
+        input:focus { border: 3px solid #ff4500; }
+        
+        button { 
+            padding: 15px 25px; 
+            background: #ff4500; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-size: 20px; 
+            border-radius: 5px; 
+            margin-left: 10px;
+        }
+        button:focus { border: 3px solid white; }
+        
+        .bookmarks { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            margin-top: 50px; 
+        }
+        .box { 
+            width: 180px; 
+            height: 120px; 
+            background: #333; 
+            margin: 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            color: white; 
+            font-size: 22px;
+            font-weight: bold; 
+            transition: 0.3s;
+        }
+        /* TV Remote se select karne par button highlight hoga */
+        .box:focus, .box:hover { 
+            background: #ff4500; 
+            transform: scale(1.1);
+            outline: none;
+            border: 3px solid white;
+        } 
     </style>
 </head>
 <body>
 
-    <video id="tvPlayer" controls autoplay>
-        <source src="https://. https://xhamster1.desi/search/hd+sex+video" type="video/mp4">
-        Your TV does not support HTML video.
-    </video>
+    <div class="header">
+        <h2>Enter Website to Play Video</h2>
+        <input type="text" id="urlInput" placeholder="google.com ya kisi site ka link likhein">
+        <button onclick="go()" id="goBtn">Search</button>
+    </div>
+
+    <div class="bookmarks">
+        <a href="https://www.google.com" class="box">GOOGLE</a>
+        <a href="https://www.youtube.com" class="box">YOUTUBE</a>
+        <a href="https://m.facebook.com" class="box">FACEBOOK</a>
+    </div>
 
     <script>
-        // TV remote ke OK button ya play/pause handle karne ke liye basic script
-        const player = document.getElementById('tvPlayer');
-        
-        document.addEventListener('keydown', function(event) {
-            // Spacebar ya TV remote ka OK/Enter button (Key code 13 ya 32)
-            if(event.keyCode === 13 || event.keyCode === 32) {
-                if(player.paused) {
-                    player.play();
-                } else {
-                    player.pause();
+        function go() {
+            var url = document.getElementById('urlInput').value.trim();
+            if (url) {
+                // Agar 'http' nahi likha hai, to apne aap lag jayega
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    url = 'https://' + url;
                 }
+                window.location.href = url;
+            }
+        }
+        
+        // Remote ka 'OK' ya Enter button dabane par
+        document.getElementById("urlInput").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) { 
+                go(); 
             }
         });
     </script>
